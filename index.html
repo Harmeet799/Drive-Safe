@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>DriveSafe</title>
+	<link rel="stylesheet" href="style.css" >
+
+</head>
+<body>
+	<!-- <div>
+		<h6 id="demo" class="h6"></h6>
+	</div> -->
+  <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+  <script>
+	var lat;
+	var long;
+  $( document ).ready(function() {
+
+		//this will run on pressing start button
+      $(function(){
+        $('#Start').click(function() {
+          //  alert("Start");
+						var d = new Date();
+						var strDate = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
+						var strTime = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+            var newTitle = "Data Recording Started";
+						var id = strDate;
+            $( "#alertStr" ).text(newTitle)
+
+						getLocation();
+
+						//sending variables to php file
+						$.post("data.php",
+						 {
+						     id1: strDate,
+								 id2: strTime,
+						  } );
+
+        });
+      });
+      $(function(){
+        $('#Stop').click(function() {
+            //alert("Stop");
+            var newTitle = "Data Recording Stopped";
+            $( "#alertStr" ).text(newTitle)
+						$.post("remove.php",
+						 {
+
+						  } );
+        });
+      });
+    });
+
+		var x = document.getElementById("demo");
+
+		function getLocation() {
+				if (navigator.geolocation) {
+						navigator.geolocation.getCurrentPosition(showPosition);
+				} else {
+						x.innerHTML = "Geolocation is not supported by this browser.";
+				}
+		}
+
+		function showPosition(position) {
+			  lat = position.coords.latitude;
+				long = position.coords.longitude;
+
+				// x.innerHTML = "Latitude: " + lat +
+				// "<br>Longitude: " + long;
+		}
+
+  </script>
+
+	<div class="FisrtPage">
+    <h1 class="h1">DRIVE SAFE</h1>
+    <div class="form">
+      <div  class="buttons">
+      <button id="Start">Start</button>
+      <button id="Stop">Stop</button>
+      <p id="alertStr"></p>
+    </div>
+    </div>
+
+	</div>
+
+</body>
+</html>
